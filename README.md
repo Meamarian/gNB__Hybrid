@@ -25,5 +25,6 @@ DirectMap2M:     3450880 kB
 
 DirectMap1G:    30408704 kB
 
-
+## RSS ##
+is disabled. because VFs have only one queue
 
