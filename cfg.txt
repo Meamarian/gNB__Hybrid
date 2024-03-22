@@ -1,0 +1,55 @@
+##########################################################################################################################
+########## This is an example of dpdk cfg hardcoded that worked for GTP 1500B and ACK 50B (totally reaching 1.5 MPPS) #####
+##########################################################################################################################
+##########################################################################################################################
+##########  PCAP Structure  GTP GTP ACK ACK and same until the end... Sending with push_remote Trex #####################
+##########################################################################################################################
+
+
+########################################## HASH TABLE CONFIG ##################################################################
+
+static struct rte_hash_parameters ut_params = {
+    .name = "BufferTable",
+    .entries = 1024*128,
+    .key_len = sizeof(uint64_t),
+    .hash_func = rte_jhash,
+    //.hash_func_init_val = 0,.hash_func = rte_hash_crc,
+    .socket_id = 0,
+    .extra_flag=RTE_HASH_EXTRA_FLAGS_EXT_TABLE,
+};
+
+########################################## MACROS and BURST SIZE and Bucket SIZE ############################################
+
+#define PKTSIZE 1700
+
+static uint8_t resubmission_time = 10; //MS
+
+#define MAX_PKT_BURST 32 
+#define BURST_TX_DRAIN_US 1 /* TX drain every ~100us */ //100
+#define MEMPOOL_CACHE_SIZE 128
+
+#define RTE_TEST_RX_DESC_DEFAULT 1024
+#define RTE_TEST_TX_DESC_DEFAULT 1024
+static uint16_t nb_rxd = RTE_TEST_RX_DESC_DEFAULT;
+static uint16_t nb_txd = RTE_TEST_TX_DESC_DEFAULT;
+static const int bucket_size = 1024 * 2048;
+
+######################################### PORT CONFIG ######################################################
+
+struct rte_eth_conf port_conf = {
+    .rxmode = {
+        //.mq_mode = ETH_MQ_RX_RSS,
+        .max_rx_pkt_len = 1700,//RTE_ETHER_MAX_LEN,
+        .split_hdr_size = 0,
+        .offloads = BAAS_RX_OFFLOADS,
+    },
+
+
+######################################### MBUF CONFIG ####################################################################
+
+    nb_mbufs = 1024U * 10000U * 1U - 1;
+    l2fwd_pktmbuf_pool = rte_malloc(NULL,rte_lcore_count()*sizeof(struct rte_mempool*),0);
+    clone_pktmbuf_pool = rte_pktmbuf_pool_create("CLONEPOOL", 20000, 32, 0, 0, rte_socket_id());
+
+
+    
