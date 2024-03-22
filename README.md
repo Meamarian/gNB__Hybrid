@@ -1,6 +1,6 @@
 # gNB__Hybrid
 
-sudo ./dpdk-baas -w 0000:b3:08.0 --lcores '0@3' -m 20000 --in-memory -- -p 1
+Example run cmd: sudo ./dpdk-baas -w 0000:b3:08.0 --lcores '0@3' -m 20000 --in-memory -- -p 1
 
 ##MAKE##
 
