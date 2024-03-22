@@ -28,3 +28,5 @@ DirectMap1G:    30408704 kB
 ## RSS ##
 is disabled. because VFs have only one queue
 
+## Other cfg ##
+in cfg.txt
